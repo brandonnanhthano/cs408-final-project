@@ -1,18 +1,64 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Hello World!</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Waitlist App</title>
 </head>
-
 <body>
-  <h1>HTML Rocks!</h1>
-  <img src="img/compile.jpeg">
-  <script type="module" src="js/main.js"></script>
-</body>
+  <h1>Join the Waitlist</h1>
 
+  <!-- Waitlist form that uses a required at the end so that customers cannot join unless the form is completely filled out -->
+  <form id="waitlist-form">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="number" id="partySize" placeholder="Party Size" required />
+    <input type="text" id="phoneNumber" placeholder="Phone Number" required /> 
+    <button type="submit">Add to Waitlist</button>
+  </form>
+
+  <h2>Current Waitlist</h2>
+  <button onclick="fetchWaitlist()">Refresh List</button>
+  <ul id="waitlist"></ul>
+
+  <script>
+    const apiUrl = 'https://fk5t394mkb.execute-api.us-east-2.amazonaws.com/items'; 
+
+    document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Pulls value from form and parses party size into a string value
+      const name = document.getElementById('name').value;
+      const partySize = parseInt(document.getElementById('partySize').value);
+      const phoneNumber = document.getElementById('phoneNumber').value;
+
+      const res = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, partySize, phoneNumber })
+      });
+
+      const result = await res.json();
+      alert(`Added: ${result.message || result.error || 'Unknown response'}`);
+      fetchWaitlist(); // auto-refresh after adding
+    });
+
+    async function fetchWaitlist() { //Pulls waitlist info from database clears and refreshes with new info 
+      const res = await fetch(apiUrl);
+      const data = await res.json();
+
+      const list = document.getElementById('waitlist');
+      list.innerHTML = '';
+
+      data.forEach(entry => { //loops through each data entry and creates a new list 
+        const item = document.createElement('li');
+        item.textContent = `${entry.name} (Party of ${entry.partySize}) - ${entry.phoneNumber}`;
+        list.appendChild(item);
+      });
+    }
+
+    // Auto-load waitlist on page load
+    fetchWaitlist();
+  </script>
+</body>
 </html>
