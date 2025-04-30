@@ -52,21 +52,25 @@
 
       const result = await res.json();
       alert(`Added: ${result.message || result.error || 'Unknown response'}`);
-      fetchWaitlist(); // auto-refresh after adding
+      fetchWaitlist();
+      document.getElementById('waitlist-form').reset(); // auto-refresh after adding
     });
 
     async function fetchWaitlist() { //Pulls waitlist info from database clears and refreshes with new info 
       const res = await fetch(apiUrl);
       const data = await res.json();
+      data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); // Sort by creation date
       const list = document.getElementById('waitlist');
       list.innerHTML = '';
 
       let nextTabIndex = 6; // Start tab index for list items
+      const averageMinutesPerParty = 5; //Average wait time per party
 
-      data.forEach(entry => { //loops through each data entry and creates a new list 
+      data.forEach((entry, index) => { //loops through each data entry and creates a new list 
         const item = document.createElement('li');
         item.setAttribute('tabindex', '0'); // Makes the item list accessible through tabbing
 
+        const estimatedWait = index * averageMinutesPerParty; // Calculate estimated wait times based off of the index
         //Need to create a delete button separately so that it can be added to the tab index
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'X';
@@ -75,7 +79,7 @@
         deleteButton.setAttribute('aria-label', `Delete ${entry.name} from waitlist`);
         deleteButton.onclick = function() { deleteEntry(entry.id);};
 
-        const textNode = document.createTextNode(` ${entry.name} (Party of ${entry.partySize}) - ${entry.phoneNumber} `);
+        const textNode = document.createTextNode(` ${entry.name} (Party of ${entry.partySize}) - ${entry.phoneNumber} - Estimated wait: ${estimatedWait} min`);
 
         //Append all to the list item
         item.appendChild(textNode);
