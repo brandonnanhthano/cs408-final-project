@@ -63,7 +63,16 @@ if the link above doesn't work I provided an image in the directory (wireframe.p
 
 ## Sources
 
+how to do transitions with buttons
 https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+
+button animations
+
 https://dev.to/webdeasy/top-20-css-buttons-animations-f41
+
+background animations
+https://www.sliderrevolution.com/resources/css-animated-background/
+
+
 
 
