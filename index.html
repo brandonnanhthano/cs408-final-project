@@ -66,10 +66,20 @@
       data.forEach(entry => { //loops through each data entry and creates a new list 
         const item = document.createElement('li');
         item.setAttribute('tabindex', '0'); // Makes the item list accessible through tabbing
-        item.innerHTML = `
-          ${entry.name} (Party of ${entry.partySize}) - ${entry.phoneNumber}
-          <button onclick="deleteEntry('${entry.id}')" aria-label="Delete ${entry.name} from waitlist">X</button>
-        `;
+
+        //Need to create a delete button separately so that it can be added to the tab index
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'X';
+        deleteButton.setAttribute('tabindex', nextTabIndex.toString());
+        nextTabIndex++;
+        deleteButton.setAttribute('aria-label', `Delete ${entry.name} from waitlist`);
+        deleteButton.onclick = function() { deleteEntry(entry.id);};
+
+        const textNode = document.createTextNode(` ${entry.name} (Party of ${entry.partySize}) - ${entry.phoneNumber} `);
+
+        //Append all to the list item
+        item.appendChild(textNode);
+        item.appendChild(deleteButton);
         list.appendChild(item);
       });
     }
