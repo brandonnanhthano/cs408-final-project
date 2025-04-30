@@ -61,3 +61,9 @@ Once the basic features of this website are implemented I would like to addition
 if the link above doesn't work I provided an image in the directory (wireframe.png).
 
 
+## Sources
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+https://dev.to/webdeasy/top-20-css-buttons-animations-f41
+
+
