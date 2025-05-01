@@ -11,7 +11,10 @@
   <h1>theWait</h1>
 
   <nav class ="navbar">
-    <a href="about.html" tabindex="0">About restaurant</a>
+    <ul>
+      <a href="about.html" tabindex="0">About restaurant</a>
+      <a href="menu.html" tabindex="1">Menu</a>
+    </ul>
  </nav>
   
 
@@ -21,15 +24,21 @@
 
   <!-- Waitlist form that uses a required at the end so that customers cannot join unless the form is completely filled out -->
   <form id="waitlist-form">
+
+    <label for="name" class="sr-only">Name</label>
     <input type="text" id="name" placeholder="Name" required tabindex="1" />
+
+    <label for="partySize" class="sr-only">Party Size</label>
     <input type="number" id="partySize" placeholder="Party Size" required tabindex="2" />
+
+    <label for="phoneNumber" class="sr-only">Phone Number</label>
     <input type="text" id="phoneNumber" placeholder="Phone Number" required tabindex="3" /> 
     <button type="submit" tabindex="4">Add to Waitlist</button>
   </form>
 
   <h2>Current Waitlist</h2>
   <button onclick="fetchWaitlist()" tabindex="5">Refresh List</button>
-  <ul id="waitlist"></ul>
+  <ul id="waitlist" role="list"></ul>
 
   <script>
     const apiUrl = 'https://fk5t394mkb.execute-api.us-east-2.amazonaws.com/items'; //API URL for the waitlist

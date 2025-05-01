@@ -1,5 +1,9 @@
 # Web Dev Starter Code
 
+## To run
+
+When running this website the functionality for the delete doesn't work in the live preview so you need to pull up the website either in safari or google chrome
+
 ## Project Spec
 
 theWait
